@@ -18,11 +18,13 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
-const eslintFormatter = require('react-dev-utils/eslintFormatter');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -181,7 +183,18 @@ module.exports = {
     // https://github.com/facebook/create-react-app/issues/290
     // `web` extension prefixes have been added for better support
     // for React Native Web.
-    extensions: ['.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx'],
+    extensions: [
+      '.mjs',
+      '.web.ts',
+      '.ts',
+      '.web.tsx',
+      '.tsx',
+      '.web.js',
+      '.js',
+      '.json',
+      '.web.jsx',
+      '.jsx',
+    ],
     alias: {
       // @remove-on-eject-begin
       // Resolve Babel runtime relative to react-scripts.
@@ -203,38 +216,20 @@ module.exports = {
       // please link the files into your node_modules/ and let module-resolution kick in.
       // Make sure your source files are compiled, as they will not be processed in any way.
       new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson]),
+      new TsconfigPathsPlugin({ configFile: paths.appTsConfig }),
     ],
   },
   module: {
     strictExportPresence: true,
     rules: [
-      // Disable require.ensure as it's not a standard language feature.
-      { parser: { requireEnsure: false } },
-
-      // First, run the linter.
-      // It's important to do this before Babel processes the JS.
+      // TODO: Disable require.ensure as it's not a standard language feature.
+      // We are waiting for https://github.com/facebookincubator/create-react-app/issues/2176.
+      // { parser: { requireEnsure: false } },
       {
         test: /\.(js|jsx|mjs)$/,
+        loader: require.resolve('source-map-loader'),
         enforce: 'pre',
-        use: [
-          {
-            options: {
-              formatter: eslintFormatter,
-              eslintPath: require.resolve('eslint'),
-              // TODO: consider separate config for production,
-              // e.g. to enable no-console and no-debugger only in production.
-              baseConfig: {
-                extends: [require.resolve('eslint-config-react-app')],
-              },
-              // @remove-on-eject-begin
-              ignore: false,
-              useEslintrc: false,
-              // @remove-on-eject-end
-            },
-            loader: require.resolve('eslint-loader'),
-          },
-        ],
-        include: paths.srcPaths,
+        include: paths.appSrc,
         exclude: [/[/\\\\]node_modules[/\\\\]/],
       },
       {
@@ -256,7 +251,7 @@ module.exports = {
           // The preset includes JSX, Flow, and some ESnext features.
           {
             test: /\.(js|jsx|mjs)$/,
-            include: paths.srcPaths,
+            include: paths.appSrc,
             exclude: [/[/\\\\]node_modules[/\\\\]/],
             use: [
               // This loader parallelizes code compilation, it is optional but
@@ -287,8 +282,32 @@ module.exports = {
               },
             ],
           },
-          // Process any JS outside of the app with Babel.
-          // Unlike the application JS, we only compile the standard ES features.
+          // Compile .tsx?
+          {
+            test: /\.(ts|tsx)$/,
+            include: paths.appSrc,
+            use: [
+              {
+                loader: require.resolve('ts-loader'),
+                options: {
+                  // disable type checker - we will use it in fork plugin
+                  transpileOnly: true,
+                },
+              },
+            ],
+          },
+          // The notation here is somewhat confusing.
+          // "postcss" loader applies autoprefixer to our CSS.
+          // "css" loader resolves paths in CSS and adds assets as dependencies.
+          // "style" loader normally turns CSS into JS modules injecting <style>,
+          // but unlike in development configuration, we do something different.
+          // `ExtractTextPlugin` first applies the "postcss" and "css" loaders
+          // (second argument), then grabs the result CSS and puts it into a
+          // separate file in our build process. This way we actually ship
+          // a single CSS file in production instead of JS code injecting <style>
+          // tags. If you use code splitting, however, any async bundles will still
+          // use the "style" loader inside the async code so CSS from them won't be
+          // in the main CSS file.
           {
             test: /\.js$/,
             use: [
@@ -466,6 +485,12 @@ module.exports = {
     // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
     // You can remove this if you don't use Moment.js:
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    // Perform type checking and linting in a separate process to speed up compilation
+    new ForkTsCheckerWebpackPlugin({
+      async: false,
+      tsconfig: paths.appTsConfig,
+      tslint: paths.appTsLint,
+    }),
   ],
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.

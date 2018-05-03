@@ -153,7 +153,7 @@ git clean -df
 
 # Install the app in a temporary location
 cd $temp_app_path
-npx create-react-app test-app
+npx create-react-app test-app --scripts-version=react-scripts-ts
 
 # TODO: verify we installed prerelease
 
@@ -215,11 +215,11 @@ function verify_module_scope {
   # Create stub json file
   echo "{}" >> sample.json
 
-  # Save App.js, we're going to modify it
-  cp src/App.js src/App.js.bak
+  # Save App.tsx, we're going to modify it
+  cp src/App.tsx src/App.tsx.bak
 
   # Add an out of scope import
-  echo "import sampleJson from '../sample'" | cat - src/App.js > src/App.js.temp && mv src/App.js.temp src/App.js
+  echo "import sampleJson from '../sample'" | cat - src/App.tsx > src/App.tsx.temp && mv src/App.tsx.temp src/App.tsx
 
   # Make sure the build fails
   yarn build; test $? -eq 1 || exit 1
@@ -227,9 +227,9 @@ function verify_module_scope {
 
   rm sample.json
 
-  # Restore App.js
-  rm src/App.js
-  mv src/App.js.bak src/App.js
+  # Restore App.tsx
+  rm src/App.tsx
+  mv src/App.tsx.bak src/App.tsx
 }
 
 # Enter the app directory

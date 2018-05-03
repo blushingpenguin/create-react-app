@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ## 1.1.4 (April 3, 2018)
 
 #### :bug: Bug Fix
@@ -1792,3 +1793,5 @@ Please [file an issue](https://github.com/facebook/create-react-app/issues/new) 
 ## Releases Before 0.x
 
 Please refer to [CHANGELOG-0.x.md](./CHANGELOG-0.x.md) for earlier versions.
+=======
+>>>>>>> tsfork/master

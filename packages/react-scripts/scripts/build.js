@@ -42,8 +42,7 @@ const FileSizeReporter = require('react-dev-utils/FileSizeReporter');
 const printBuildError = require('react-dev-utils/printBuildError');
 const { printBrowsers } = require('react-dev-utils/browsersHelper');
 
-const measureFileSizesBeforeBuild =
-  FileSizeReporter.measureFileSizesBeforeBuild;
+const measureFileSizesBeforeBuild = FileSizeReporter.measureFileSizesBeforeBuild;
 const printFileSizesAfterBuild = FileSizeReporter.printFileSizesAfterBuild;
 
 // These sizes are pretty large. We'll warn for bundles exceeding them.

@@ -4,21 +4,25 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "cd packages/react-scripts && node bin/react-scripts.js build",
+    "build": "cd packages/react-scripts && node bin/react-scripts-ts.js build",
     "changelog": "lerna-changelog",
     "create-react-app": "node tasks/cra.js",
     "e2e": "tasks/e2e-simple.sh",
     "e2e:docker": "tasks/local-test.sh",
     "postinstall": "cd packages/react-error-overlay/ && yarn build:prod",
     "publish": "tasks/publish.sh",
-    "start": "cd packages/react-scripts && node bin/react-scripts.js start",
+    "start": "cd packages/react-scripts && node bin/react-scripts-ts.js start",
     "screencast": "node ./tasks/screencast.js",
     "screencast:error": "svg-term --cast jyu19xGl88FQ3poMY8Hbmfw8y --out screencast-error.svg --window --at 12000 --no-cursor",
-    "test": "cd packages/react-scripts && node bin/react-scripts.js test --env=jsdom",
+    "test": "cd packages/react-scripts && node bin/react-scripts-ts.js test --env=jsdom",
     "format": "prettier --trailing-comma es5 --single-quote --write 'packages/*/*.js' 'packages/*/!(node_modules)/**/*.js'",
     "precommit": "lint-staged"
   },
   "devDependencies": {
+    "@types/jest": "^20.0.4",
+    "@types/node": "^7.0.21",
+    "@types/react": "^15.6.1",
+    "@types/react-dom": "^15.5.0",
     "eslint": "4.19.1",
     "execa": "^0.10.0",
     "husky": "^0.14.3",
