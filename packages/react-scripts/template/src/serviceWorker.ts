@@ -9,6 +9,11 @@
 // To learn more about the benefits of this model, read https://goo.gl/KwvDNy.
 // This link also includes instructions on opting out of this behavior.
 
+interface IConfig {
+  onUpdate?: (registration: ServiceWorkerRegistration) => void;
+  onSuccess?: (registration: ServiceWorkerRegistration) => void;
+}
+
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
     // [::1] is the IPv6 localhost address.
@@ -19,7 +24,7 @@ const isLocalhost = Boolean(
     )
 );
 
-export function register(config) {
+export function register(config: IConfig) {
   if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL!, window.location.toString());
@@ -53,14 +58,14 @@ export function register(config) {
   }
 }
 
-function registerValidSW(swUrl: string, config) {
+function registerValidSW(swUrl: string, config: IConfig) {
   navigator.serviceWorker
     .register(swUrl)
     .then(registration => {
       registration.onupdatefound = () => {
         const installingWorker = registration.installing;
-        installingWorker.onstatechange = () => {
-          if (installingWorker.state === 'installed') {
+        installingWorker!.onstatechange = () => {
+          if (installingWorker!.state === 'installed') {
             if (navigator.serviceWorker.controller) {
               // At this point, the old content will have been purged and
               // the fresh content will have been added to the cache.
@@ -92,7 +97,7 @@ function registerValidSW(swUrl: string, config) {
     });
 }
 
-function checkValidServiceWorker(swUrl: string, config) {
+function checkValidServiceWorker(swUrl: string, config: IConfig) {
   // Check if the service worker can be found. If it can't reload the page.
   fetch(swUrl)
     .then(response => {
