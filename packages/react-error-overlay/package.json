@@ -1,6 +1,6 @@
 {
   "name": "react-error-overlay",
-  "version": "4.0.1-vendeq",
+  "version": "4.0.2-vendeq",
   "description": "An overlay for displaying stack frames.",
   "main": "lib/index.js",
   "scripts": {
