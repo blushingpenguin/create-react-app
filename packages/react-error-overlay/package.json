@@ -1,6 +1,6 @@
 {
   "name": "react-error-overlay",
-  "version": "4.0.0",
+  "version": "4.0.2-vendeq",
   "description": "An overlay for displaying stack frames.",
   "main": "lib/index.js",
   "scripts": {
@@ -38,7 +38,7 @@
     "babel-eslint": "^8.2.2",
     "babel-jest": "^22.4.3",
     "babel-loader": "^8.0.0-beta.0",
-    "babel-preset-react-app": "^3.1.1",
+    "babel-preset-react-app": "3.1.1-vendeq",
     "chalk": "^2.3.2",
     "chokidar": "^2.0.2",
     "cross-env": "5.1.4",
