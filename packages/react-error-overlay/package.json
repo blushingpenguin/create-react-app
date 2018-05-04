@@ -1,8 +1,8 @@
 {
   "name": "react-error-overlay",
-  "version": "4.0.0-vendeq",
+  "version": "4.0.1-vendeq",
   "description": "An overlay for displaying stack frames.",
-  "main": "lib/index.js",
+  "main": "src/index.js",
   "scripts": {
     "prepublishOnly": "npm run build:prod && npm test",
     "start": "cross-env NODE_ENV=development node build.js --watch",
@@ -27,7 +27,7 @@
   ],
   "author": "Joe Haddad <timer150@gmail.com>",
   "files": [
-    "lib/index.js"
+    "src/index.js"
   ],
   "devDependencies": {
     "@babel/code-frame": "7.0.0-beta.46",
