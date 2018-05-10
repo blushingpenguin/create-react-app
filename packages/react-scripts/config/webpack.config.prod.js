@@ -24,6 +24,8 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const lessToJs = require('less-vars-to-js');
+const fs = require('fs');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -51,11 +53,19 @@ const sassModuleRegex = /\.module\.(scss|sass)$/;
 
 // common function to get style loaders
 const getStyleLoaders = (cssOptions, preProcessor) => {
+  const themeVariables = lessToJs(fs.readFileSync(path.join(__dirname, './modify-vars.less'), 'utf8'));
   const loaders = [
     MiniCssExtractPlugin.loader,
     {
       loader: require.resolve('css-loader'),
       options: cssOptions,
+    },
+    {
+        loader: require.resolve('less-loader'),
+        options: {
+            javascriptEnabled: true,
+            modifyVars: themeVariables,
+        }
     },
     {
       // Options for PostCSS as we reference these options twice
@@ -197,6 +207,7 @@ module.exports = {
       '.json',
       '.web.jsx',
       '.jsx',
+      '.less',
     ],
     alias: {
       // @remove-on-eject-begin
@@ -278,6 +289,7 @@ module.exports = {
                         },
                       },
                     ],
+                    ['import', { libraryName: 'antd', style: true}]
                   ],
                   compact: true,
                   highlightCode: true,
@@ -384,6 +396,10 @@ module.exports = {
               },
               'sass-loader'
             ),
+          },
+          {
+            test: /\.less$/,
+            use: getStyleLoaders({ importLoaders: 2 })
           },
           // The GraphQL loader preprocesses GraphQL queries in .graphql files.
           {

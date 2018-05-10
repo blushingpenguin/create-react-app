@@ -21,6 +21,8 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const lessToJs = require('less-vars-to-js');
+const fs = require('fs');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -40,11 +42,19 @@ const sassModuleRegex = /\.module\.(scss|sass)$/;
 
 // common function to get style loaders
 const getStyleLoaders = (cssOptions, preProcessor) => {
+  const themeVariables = lessToJs(fs.readFileSync(path.join(__dirname, './modify-vars.less'), 'utf8'));
   const loaders = [
     require.resolve('style-loader'),
     {
       loader: require.resolve('css-loader'),
       options: cssOptions,
+    },
+    {
+        loader: require.resolve('less-loader'),
+        options: {
+            javascriptEnabled: true,
+            modifyVars: themeVariables,
+        }
     },
     {
       // Options for PostCSS as we reference these options twice
@@ -236,6 +246,7 @@ module.exports = {
                         },
                       },
                     ],
+                    ['import', { libraryName: 'antd', style: true}]
                   ],
                   // This is a feature of `babel-loader` for webpack (not Babel itself).
                   // It enables caching results in ./node_modules/.cache/babel-loader/
@@ -327,6 +338,10 @@ module.exports = {
               },
               'sass-loader'
             ),
+          },
+          {
+              test: /\.less$/,
+              use: getStyleLoaders({ importLoaders: 2 })
           },
           // The GraphQL loader preprocesses GraphQL queries in .graphql files.
           {
