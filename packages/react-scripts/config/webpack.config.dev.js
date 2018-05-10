@@ -42,7 +42,7 @@ const sassModuleRegex = /\.module\.(scss|sass)$/;
 
 // common function to get style loaders
 const getStyleLoaders = (cssOptions, preProcessor) => {
-  const themeVariables = lessToJs(fs.readFileSync(path.join(__dirname, './modify-vars.less'), 'utf8'));
+  const themeVariables = lessToJs(fs.readFileSync(paths.appModifyVars, 'utf8'));
   const loaders = [
     require.resolve('style-loader'),
     {
