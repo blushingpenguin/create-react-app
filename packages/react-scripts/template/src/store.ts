@@ -3,9 +3,9 @@ import { applyMiddleware, combineReducers, createStore } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import promise from "redux-promise-middleware";
 import thunk from "redux-thunk";
+import { IExampleAppStateSlice, IRootStoreState } from "./models/state";
 import exampleThings, { exampleThingsInitialState } from "./redux/exampleThings";
 import pageSettings, { pageSettingsInitialState } from "./redux/pageSettings";
-import { IExampleAppStateSlice, IRootStoreState } from "./models/state";
 
 // these are exported with the module to be combined in a different rootReducer/state
 export const rootReducer = combineReducers<IExampleAppStateSlice>({

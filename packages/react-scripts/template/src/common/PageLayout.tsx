@@ -8,7 +8,7 @@ import { interval, Subject, Subscription } from 'rxjs';
 import { throttle } from 'rxjs/operators';
 import '../App.less';
 import "../index.css";
-import { routes as globalRoutes } from "../Routes";
+import { routes as globalRoutes } from "../routes";
 import "../vendeq.png";
 import AppBar from './AppBar';
 import { IExtendedRouteConfig } from './routing';

@@ -1,6 +1,6 @@
 import { Affix, Col, Input, Row } from "antd";
 import * as React from "react";
-import { connect, Dispatch, MapDispatchToPropsFunction } from "react-redux";
+import { connect, Dispatch } from "react-redux";
 import { AnyAction, bindActionCreators } from "redux";
 import { IRootStoreState } from "../models/state";
 import { exampleThingActions, exampleThingActionTypes } from "../redux/exampleThings";

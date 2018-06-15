@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { Provider, Store } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-import renderRoutes from "./common/renderRoutes";
+import renderRoutes from "./common/RenderRoutes";
 // import { GlobalOptions } from "./globalOptions";
 // import { AppLocalizationProvider } from './i18n/AppLocalizationProvider';
 import { IRootStoreState } from './models/state';
-import { routes } from "./Routes";
+import { localRoutes } from "./routes";
 import { configureStore } from './store';
 
 class App extends React.Component {
@@ -21,7 +21,7 @@ class App extends React.Component {
         return (
             <Provider store={this.store}>
                 <BrowserRouter>
-                    {renderRoutes(routes)}
+                    {renderRoutes(localRoutes)}
                 </BrowserRouter>
             </Provider>
         );

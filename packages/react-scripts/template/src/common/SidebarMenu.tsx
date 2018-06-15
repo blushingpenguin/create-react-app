@@ -2,7 +2,7 @@
 import { Icon, Menu } from 'antd';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { routes as globalRoutes } from '../Routes';
+import { routes as globalRoutes } from '../routes';
 import { IExtendedRouteConfig } from './routing';
 import './styles/SidebarMenu.less';
 

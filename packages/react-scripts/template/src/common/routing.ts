@@ -2,11 +2,11 @@
 import * as express from "express";
 import { RouteConfig } from "react-router-config";
 import { AnyAction, Store } from "redux";
-import { IStoreState } from "./interfaces";
+import { IRootStoreState } from "../models/state";
 
 export interface IExtendedRouteConfig extends RouteConfig {
     methods?: string
-    init?: string | boolean | ((req: Express.Request, match: IExtendedRouteConfig) => Promise<Store<IStoreState, AnyAction>>)
+    init?: string | boolean | ((req: express.Request, match: IExtendedRouteConfig) => Promise<Store<IRootStoreState, AnyAction>>)
     routes?: IExtendedRouteConfig[]
     title?: string
     key?: string
@@ -20,12 +20,12 @@ export interface IRenderToStringResult {
 
 export interface IReduxRouterOptions {
     routes: IExtendedRouteConfig[]
-    createReduxStore: (req: express.Request, route: IExtendedRouteConfig) => Store<IStoreState, AnyAction>
+    createReduxStore: (req: express.Request, route: IExtendedRouteConfig) => Store<IRootStoreState, AnyAction>
     routesHandlerPath?: string
     withIds: boolean
     stringifyPreloadedState?: (state: object) => string
     logError?: (req: express.Request, err: Error) => void
-    renderToString?: (req: express.Request, store: Store<IStoreState, AnyAction>, match: IExtendedRouteConfig, withIds: boolean) => IRenderToStringResult,
+    renderToString?: (req: express.Request, store: Store<IRootStoreState, AnyAction>, match: IExtendedRouteConfig, withIds: boolean) => IRenderToStringResult,
     redirects: IRedirectConfig[]
 }
 
