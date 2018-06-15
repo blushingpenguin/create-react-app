@@ -1,29 +1,31 @@
 import * as React from 'react';
-import './App.css';
-
-import logo from './logo.svg';
+import { Provider, Store } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
+import renderRoutes from "./common/renderRoutes";
+// import { GlobalOptions } from "./globalOptions";
+// import { AppLocalizationProvider } from './i18n/AppLocalizationProvider';
+import { IRootStoreState } from './models/state';
+import { routes } from "./Routes";
+import { configureStore } from './store';
 
 class App extends React.Component {
-  public render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p className="App-intro">
-            To get started, edit <code>src/App.tsx</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+    private store: Store<IRootStoreState>;
+
+    constructor(props: any) {
+        super(props);
+
+        this.store = configureStore();
+    }
+
+    public render() {
+        return (
+            <Provider store={this.store}>
+                <BrowserRouter>
+                    {renderRoutes(routes)}
+                </BrowserRouter>
+            </Provider>
+        );
+    }
 }
 
 export default App;
