@@ -46,7 +46,7 @@ export const exampleThingActions = {
     })
 }
 
-const asyncResponseActions = {
+export const asyncResponseActions = {
     getExampleThingsResponses: createAsyncAction("GET_EXAMPLE_THINGS_PENDING", "GET_EXAMPLE_THINGS_FULFILLED", "GET_EXAMPLE_THINGS_REJECTED")<void, AxiosResponse<IExampleThing[]>, Error>(),
     getExampleThingResponses: createAsyncAction("GET_EXAMPLE_THING_PENDING", "GET_EXAMPLE_THING_FULFILLED", "GET_EXAMPLE_THING_REJECTED")<void, AxiosResponse<IExampleThing>, Error>(),
     createExampleThingResponses: createAsyncAction("CREATE_EXAMPLE_THING_PENDING", "CREATE_EXAMPLE_THING_FULFILLED", "CREATE_EXAMPLE_THING_REJECTED")<void, AxiosResponse<IExampleThing>, Error>(),
@@ -54,7 +54,7 @@ const asyncResponseActions = {
     deleteExampleThingResponses: createAsyncAction("DELETE_EXAMPLE_THING_PENDING", "DELETE_EXAMPLE_THING_FULFILLED", "DELETE_EXAMPLE_THING_REJECTED")<void, AxiosResponse, Error>(),
 }
 
-type ExampleThingsActionTypes = ActionType<typeof exampleThingActions | typeof asyncResponseActions>;
+export type ExampleThingsActionTypes = ActionType<typeof exampleThingActions | typeof asyncResponseActions>;
 
 export const exampleThingsInitialState: IExampleThingsStateSlice = {
     allIds: [],

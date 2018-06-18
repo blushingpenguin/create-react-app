@@ -1,5 +1,4 @@
-import { Store } from "react-redux";
-import { applyMiddleware, combineReducers, createStore } from "redux";
+import { AnyAction, applyMiddleware, combineReducers, createStore, Reducer, Store } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import promise from "redux-promise-middleware";
 import thunk from "redux-thunk";
@@ -8,7 +7,7 @@ import exampleThings, { exampleThingsInitialState } from "./redux/exampleThings"
 import pageSettings, { pageSettingsInitialState } from "./redux/pageSettings";
 
 // these are exported with the module to be combined in a different rootReducer/state
-export const rootReducer = combineReducers<IExampleAppStateSlice>({
+export const rootReducer: Reducer<IExampleAppStateSlice, AnyAction> = combineReducers<IExampleAppStateSlice>({
     exampleThings,
     pageSettings
 });
@@ -29,7 +28,7 @@ const internalInitialState: IRootStoreState = {
 
 const middlewares = [promise(), thunk];
 
-export const configureStore = (state: IRootStoreState = internalInitialState): Store<IRootStoreState> => {
+export const configureStore = (state: IRootStoreState = internalInitialState): Store<IRootStoreState, AnyAction> => {
     return createStore<IRootStoreState, any, any, any>(
         internalRootReducer, 
         state,

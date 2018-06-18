@@ -81,11 +81,8 @@ module.exports = function(
   originalDirectory,
   template
 ) {
-  const ownPackageName = require(path.join(
-    __dirname,
-    '..',
-    'package.json'
-  )).name;
+  const ownPackageName = require(path.join(__dirname, '..', 'package.json'))
+    .name;
   const ownPath = path.join(appPath, 'node_modules', ownPackageName);
   const appPackage = require(path.join(appPath, 'package.json'));
   const useYarn = fs.existsSync(path.join(appPath, 'yarn.lock'));
@@ -99,7 +96,11 @@ module.exports = function(
     build: 'react-scripts-ts build',
     test: 'react-scripts-ts test --env=jsdom',
     eject: 'react-scripts-ts eject',
+    tsc: 'tsc',
   };
+
+  app.main = 'dist/module.js';
+  app.types = 'dist/module.d.ts';
 
   appPackage.browserslist = defaultBrowsers;
 
@@ -274,6 +275,8 @@ module.exports = function(
 function isReactInstalled(appPackage) {
   const dependencies = appPackage.dependencies || {};
 
-  return typeof dependencies.react !== 'undefined' &&
-    typeof dependencies['react-dom'] !== 'undefined';
+  return (
+    typeof dependencies.react !== 'undefined' &&
+    typeof dependencies['react-dom'] !== 'undefined'
+  );
 }
