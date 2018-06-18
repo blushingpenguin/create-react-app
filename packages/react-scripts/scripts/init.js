@@ -99,8 +99,8 @@ module.exports = function(
     tsc: 'tsc',
   };
 
-  app.main = 'dist/module.js';
-  app.types = 'dist/module.d.ts';
+  appPackage.main = 'dist/module.js';
+  appPackage.types = 'dist/module.d.ts';
 
   appPackage.browserslist = defaultBrowsers;
 
