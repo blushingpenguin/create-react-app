@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Provider, Store } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-import renderRoutes from "./common/RenderRoutes";
-// import { GlobalOptions } from "./globalOptions";
-// import { AppLocalizationProvider } from './i18n/AppLocalizationProvider';
+import { AppLocalizationProvider } from "vendeq-locale";
+import { GlobalOptions, makeRoutes, renderRoutes } from "vendeq-ui-common";
+import "vendeq-ui-common/styles.less";
 import { IRootStoreState } from './models/state';
 import { localRoutes } from "./routes";
 import { configureStore } from './store';
@@ -20,9 +20,14 @@ class App extends React.Component {
     public render() {
         return (
             <Provider store={this.store}>
-                <BrowserRouter>
-                    {renderRoutes(localRoutes)}
-                </BrowserRouter>
+                <AppLocalizationProvider
+                    cookie={GlobalOptions.languageCookie}
+                    supportedLanguages={GlobalOptions.supportedLanguages}
+                    title="Example app">
+                    <BrowserRouter>
+                        {renderRoutes(makeRoutes(localRoutes))}
+                    </BrowserRouter>
+                </AppLocalizationProvider>
             </Provider>
         );
     }

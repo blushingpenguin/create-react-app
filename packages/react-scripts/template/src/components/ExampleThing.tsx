@@ -13,7 +13,6 @@ interface IAppStoreProps {
     exampleThing: IExampleThing;
 }
 
-
 type IAppProps = IAppBaseProps & IAppStoreProps;
 
 class App extends React.Component<IAppProps> {

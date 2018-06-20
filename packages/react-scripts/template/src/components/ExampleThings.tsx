@@ -2,29 +2,25 @@ import { Affix, Col, Input, Row } from "antd";
 import * as React from "react";
 import { connect, Dispatch } from "react-redux";
 import { AnyAction, bindActionCreators } from "redux";
+import { LocalizedComponent } from "vendeq-locale";
 import { IRootStoreState } from "../models/state";
 import { exampleThingActions, exampleThingActionTypes } from "../redux/exampleThings";
 import ExampleThing from "./ExampleThing";
 
-interface IExampleThingsStoreProps {
+interface IExampleThingsProps {
     loaded: boolean;
     exampleThingIds: string[];
-}
-
-interface IExampleThingsActionProps {
     getExampleThings: typeof exampleThingActions.getExampleThings;
 }
-
-type IExampleThingsProps = IExampleThingsStoreProps & IExampleThingsActionProps;
 
 interface IExampleThingsState {
     search: string;
 }
 
-class ExampleThings extends React.Component<IExampleThingsProps, IExampleThingsState> {
+class ExampleThings extends LocalizedComponent<IExampleThingsProps, IExampleThingsState> {
 
-    constructor (props: IExampleThingsProps) {
-        super(props);
+    constructor (props: IExampleThingsProps, context: any) {
+        super(props, context);
 
         this.state = {
             search: ""
@@ -58,7 +54,7 @@ class ExampleThings extends React.Component<IExampleThingsProps, IExampleThingsS
         return (
             <div>
                 <Affix>
-                    <Input.Search placeholder="Find a thing..." enterButton="Search" size="large" onSearch={this.onSearch} />
+                    <Input.Search placeholder={this.getString("search_placeholder")} enterButton={this.getString("search_button")} size="large" onSearch={this.onSearch} />
                 </Affix>
                 <Row style={{ maxWidth: "1500px", margin: "auto" }}>
                     {exampleThings}
@@ -68,15 +64,15 @@ class ExampleThings extends React.Component<IExampleThingsProps, IExampleThingsS
     }
 }
 
-const mapStateToProps = (state: IRootStoreState, ownProps: any): IExampleThingsStoreProps => ({
-    loaded: state.exampleApp.pageSettings.loadedRequests[exampleThingActionTypes.GET_EXAMPLE_THINGS],
+const mapStateToProps = (state: IRootStoreState) => ({
+    loaded: state.pageSettings.loadedRequests[exampleThingActionTypes.GET_EXAMPLE_THINGS],
     exampleThingIds: state.exampleApp.exampleThings.allIds
 });
 
-const mapActionsToProps = (dispatch: Dispatch<AnyAction>): IExampleThingsActionProps => {
+const mapActionsToProps = (dispatch: Dispatch<AnyAction>) => {
     return bindActionCreators({ getExampleThings: exampleThingActions.getExampleThings}, dispatch);
 }
 
-export default connect<IExampleThingsStoreProps, IExampleThingsActionProps, any>(mapStateToProps, mapActionsToProps)(ExampleThings);
+export default connect(mapStateToProps, mapActionsToProps)(ExampleThings);
 
 

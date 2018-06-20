@@ -1,4 +1,5 @@
 import { AxiosResponse } from "axios";
+import { successResponse } from "vendeq-ui-common";
 import { IExampleThing } from "../../models/exampleThing"
 
 let idSequence = 0;
@@ -12,17 +13,6 @@ const mockRepo: IExampleThing[] = [{
     id: "" + ++idSequence,
     name: "Example thing " + idSequence
 }];
-
-// Can be moved to framework library
-function successResponse<T>(value: T): AxiosResponse<T> {
-    return {
-        config: {},
-        data: value,
-        headers: {},
-        status: 200,
-        statusText: "OK"
-    };
-};
 
 class ExampleThingApi {
     public getExampleThings(search?: string, skip?: number, take?: number): Promise<AxiosResponse<IExampleThing[]>> {

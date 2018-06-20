@@ -1,5 +1,19 @@
 import axios, { AxiosResponse } from "axios"
+import { successResponse } from "vendeq-ui-common";
 import { IExampleThing } from "../models/exampleThing"
+
+
+let idSequence = 0;
+const mockRepo: IExampleThing[] = [{
+    id: "" + ++idSequence,
+    name: "Example thing " + idSequence
+}, {
+    id: "" + ++idSequence,
+    name: "Example thing " + idSequence
+}, {
+    id: "" + ++idSequence,
+    name: "Example thing " + idSequence
+}];
 
 class ExampleThingApi {
 	private apiRoot: string;
@@ -9,20 +23,9 @@ class ExampleThingApi {
     }
     
     public getExampleThings(search?: string, skip?: number, take?: number): Promise<AxiosResponse<IExampleThing[]>> {
-        let query = search || skip || take ? "?" : "";
-        if (search) {
-            query += "search=" + search;
-        }
-        if (skip) {
-            query += query.length > 1 ? "&" : "";
-            query += "skip=" + skip;
-        }
-        if (take) {
-            query += query.length > 1 ? "&" : "";
-            query += "take=" + take;
-        }
-
-        return axios.get(this.apiRoot + query, { withCredentials: true} );
+        return new Promise<AxiosResponse<IExampleThing[]>>((resolve, reject) => {
+            resolve(successResponse(mockRepo));
+        });
     }
 
 	public getExampleThing(appId: string): Promise<AxiosResponse<IExampleThing>> {

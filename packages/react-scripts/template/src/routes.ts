@@ -1,15 +1,15 @@
-import { IExtendedRouteConfig } from "./common/routing";
+import { IExtendedRouteConfigBase } from "vendeq-ui-common";
 import ExampleThings from "./components/ExampleThings";
 
 // this will be exported by module exports, add routes to be added to parent apps
-export const routes: IExtendedRouteConfig[] = [{
+export const routes: IExtendedRouteConfigBase[] = [{
     component: ExampleThings,
     exact: true,
     path: "/things",
     title: "Example things"
 }];
 
-export const localRoutes: IExtendedRouteConfig[] = routes.concat([{
+export const localRoutes: IExtendedRouteConfigBase[] = routes.concat([{
     component: ExampleThings,
     exact: true,
     path: "/",
