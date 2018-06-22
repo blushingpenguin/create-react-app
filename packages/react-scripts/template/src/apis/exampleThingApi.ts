@@ -19,7 +19,7 @@ class ExampleThingApi {
 	private apiRoot: string;
 
 	constructor(apiUrl: string) {
-		this.apiRoot = apiUrl + '/globalapps/';
+		this.apiRoot = apiUrl + '/things/';
     }
     
     public getExampleThings(search?: string, skip?: number, take?: number): Promise<AxiosResponse<IExampleThing[]>> {
