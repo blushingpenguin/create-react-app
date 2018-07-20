@@ -1,7 +1,7 @@
 import { Affix, Col, Input, Row } from "antd";
 import * as React from "react";
-import { connect, Dispatch } from "react-redux";
-import { AnyAction, bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { AnyAction, bindActionCreators, Dispatch } from "redux";
 import { LocalizedComponent } from "vendeq-locale";
 import { IRootStoreState } from "../models/state";
 import { exampleThingActions, exampleThingActionTypes } from "../redux/exampleThings";
@@ -74,5 +74,3 @@ const mapActionsToProps = (dispatch: Dispatch<AnyAction>) => {
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(ExampleThings);
-
-

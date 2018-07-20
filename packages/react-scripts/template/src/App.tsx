@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { Provider, Store } from "react-redux";
+import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
+import { Store } from 'redux';
 import { AppLocalizationProvider } from "vendeq-locale";
 import { GlobalOptions, makeRoutes, renderRoutes } from "vendeq-ui-common";
 import "vendeq-ui-common/styles.less";
@@ -23,9 +24,10 @@ class App extends React.Component {
                 <AppLocalizationProvider
                     cookie={GlobalOptions.languageCookie}
                     supportedLanguages={GlobalOptions.supportedLanguages}
+                    ftlFolders={["/public"]}
                     title="Example app">
                     <BrowserRouter>
-                        {renderRoutes(makeRoutes(localRoutes))}
+                        {renderRoutes(makeRoutes(localRoutes), ["/public"])}
                     </BrowserRouter>
                 </AppLocalizationProvider>
             </Provider>
