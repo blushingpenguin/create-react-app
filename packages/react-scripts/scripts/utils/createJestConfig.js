@@ -31,6 +31,7 @@ module.exports = (resolve, rootDir, srcRoots) => {
       '!src/serviceWorker.ts',
       '!src/test/*',
     ],
+    coverageReporters: ['cobertura', 'html', 'text'],
     setupFiles: [resolve('config/polyfills.js')],
     setupTestFrameworkScriptFile: setupTestsFile,
     testMatch: [
