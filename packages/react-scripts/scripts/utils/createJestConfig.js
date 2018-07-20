@@ -27,7 +27,7 @@ module.exports = (resolve, rootDir, srcRoots) => {
     collectCoverageFrom: [
       'src/**/*.{js,jsx,ts,tsx}',
       '!src/**/*.d.ts',
-      '!src/index.ts',
+      '!src/index.tsx',
       '!src/serviceWorker.ts',
       '!src/test/*',
     ],
