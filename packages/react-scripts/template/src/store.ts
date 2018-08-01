@@ -3,7 +3,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import promise from "redux-promise-middleware";
 import thunk from "redux-thunk";
 import { localeInitialState, localeReducer } from "vendeq-locale";
-import { pageSettingsInitialState, pageSettingsReducer } from "vendeq-ui-common";
+import { pageSettingsInitialState, pageSettingsReducer, promiseProgressMessageMiddleware } from "vendeq-ui-common";
 import { IExampleAppStateSlice, IRootStoreState } from "./models/state";
 import exampleThings, { exampleThingsInitialState } from "./redux/exampleThings";
 
@@ -29,7 +29,7 @@ const internalInitialState: IRootStoreState = {
     pageSettings: pageSettingsInitialState
 }
 
-const middlewares = [promise(), thunk];
+const middlewares = [promiseProgressMessageMiddleware, promise(), thunk];
 
 export const configureStore = (state: IRootStoreState = internalInitialState): Store<IRootStoreState, AnyAction> => {
     return createStore<IRootStoreState, any, any, any>(
